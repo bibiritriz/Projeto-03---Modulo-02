@@ -7,22 +7,105 @@ function Buscar(){
   let url = `https://viacep.com.br/ws/${cep}/json/`;
 
   $.getJSON(url, (endereco) => {
-    autocomplete(endereco);
-  }).fail(() => {
-
+    if (endereco.bairro != null) {
+      autocomplete(endereco);
+      LimparERRO();
+    } else {
+      CEPInvalido();
+    }
   });
 }; 
 
 //Coloca as informações nos inputs
 function autocomplete(endereco){
-  //Parar de Recarregar Página
-  document.getElementById("FormClientes").addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
-
   document.getElementById("InputRua").value = endereco.logradouro;
   document.getElementById("InputBairro").value = endereco.bairro;
   document.getElementById("InputEstado").value = endereco.uf;
-  document.getElementById("InputCity").value = endereco.localidade;
+  document.getElementById("InputCidade").value = endereco.localidade;
+
+  $("#InputNumero").prop("disabled", false);
 };
 
+//Array de Clientes Cadastrados
+var clientes = [
+  
+];
+
+function CEPInvalido(endereco) {
+  DivCEP.innerHTML = `Cep não encontrado`;
+};
+
+//Verificando se o CEP tem a largura válida
+function VerificarCEP() {
+  let InputCEP = document.getElementById("InputCEP").value;
+  
+  if(InputCEP.length < 9){
+    DivCEP.innerHTML = `Cep Inválido`;
+  } else {
+    Buscar();
+  }
+};
+
+//Limpando mensagem de erro
+function LimparERRO(){
+  DivCEP.innerHTML = "";
+};
+
+//Salvando Clientes 
+function Salvar(){
+  var cliente = {
+    id: clientes.length + 1,
+    name: document.getElementById("InputNome").value,
+    sobrenome: document.getElementById("InputSobrenome").value,
+    CEP: document.getElementById("InputCEP").value,
+    rua: document.getElementById("InputRua").value,
+    bairro: document.getElementById("InputBairro").value,
+    estado: document.getElementById("InputEstado").value,
+    cidade: document.getElementById("InputCidade").value,
+    numero: document.getElementById("InputNumero").value,
+  };
+
+  addNewRow(cliente);
+  clientes.push(cliente);
+  
+  document.getElementById("FormClientes").reset();
+};
+
+loadCliente();
+
+
+function loadCliente() {
+  for (let cliente of clientes) {
+    addNewRow(cliente);
+  }
+}
+
+//Colocando Clientes na Tabela
+function addNewRow(cliente) {
+  var tabela = document.getElementById("TabelaClientes");
+  
+  var novaLinha = tabela.insertRow();
+  
+  var idNode = document.createTextNode(cliente.id);
+  novaLinha.insertCell().appendChild(idNode);
+
+  var nomeCompleto = cliente.name + " " + cliente.sobrenome;
+  var nameNode = document.createTextNode(nomeCompleto);
+  novaLinha.insertCell().appendChild(nameNode);
+
+  var rua = cliente.rua + ", n°" + cliente.numero;
+  var ruaNode = document.createTextNode(rua);
+  novaLinha.insertCell().appendChild(ruaNode);
+
+  var CEPNode = document.createTextNode(cliente.CEP);
+  novaLinha.insertCell().appendChild(CEPNode);
+
+  var bairroNode = document.createTextNode(cliente.bairro);
+  novaLinha.insertCell().appendChild(bairroNode);
+
+  var cidadeNode = document.createTextNode(cliente.cidade);
+  novaLinha.insertCell().appendChild(cidadeNode);
+
+  var estadoNode = document.createTextNode(cliente.estado);
+  novaLinha.insertCell().appendChild(estadoNode);
+}

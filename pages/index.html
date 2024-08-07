@@ -18,7 +18,7 @@
     </header>
     <main>
       <section>
-        <form onsubmit="save()" id="FormClientes">
+        <form onsubmit="Salvar(); return false;" id="FormClientes">
           <!-- Cadastro -->
           <div class="my-3 mx-4">
             <!-- Linha -->
@@ -27,78 +27,83 @@
               <div class="col-6">
                 <div class="mb-3">
                   <label for="InputFirstName" class="form-label">Primeiro nome</label>
-                  <input type="text" class="form-control" id="InputFirstName" placeholder="Insira seu primeiro nome" required/>
+                  <input type="text" class="form-control" id="InputNome" placeholder="Insira seu primeiro nome"
+                    required />
                 </div>
               </div>
               <!-- Input Sobrenome -->
               <div class="col-6">
                 <div class="mb-3">
-                  <label for="InputLastName" class="form-label">Segundo nome</label>
-                  <input type="text" class="form-control" id="InputLastName" placeholder="Insira seu segundo nome" required/>
+                  <label for="InputLastName" class="form-label">Sobrenome</label>
+                  <input type="text" class="form-control" id="InputSobrenome" placeholder="Insira seu segundo nome"
+                    required />
                 </div>
               </div>
             </div>
-            <!-- Input CEP -->
+            <!-- Linha -->
             <div class="row">
-              <div class="col-3">
-                <div class="mb-3" id="DivCEP">
+              <!-- Input CEP -->
+              <div class="mb-3">
+                <div class="col-3">
                   <label for="InputCEP" class="col-12 form-label">CEP</label>
-                  <input onblur="Buscar()" type="text" class="form-control" id="InputCEP" placeholder="Insira seu CEP" required/>
+                  <input onblur="VerificarCEP()" type="text" class="form-control" id="InputCEP"
+                    placeholder="Insira seu CEP" required />
+                </div>
+                <!-- Mensagem Erro -->
+                <div class="col-8 text-danger" id="DivCEP">
+                </div>
+                <!-- Linha -->
+                <div class="row">
+                  <!-- Input Rua -->
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="InputRua" class="form-label">Rua</label>
+                      <input type="text" class="form-control" id="InputRua" disabled />
+                    </div>
+                  </div>
+                  <!-- Input Bairro -->
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="InputBairro" class="form-label">Bairro</label>
+                      <input type="text" class="form-control" id="InputBairro" disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Linha -->
+                <div class="row">
+                  <!-- Input Cidade -->
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="InputCidade" class="form-label">Cidade</label>
+                      <input type="text" class="form-control" id="InputCidade" disabled />
+                    </div>
+                  </div>
+                  <!-- Input Número -->
+                  <div class="col-3">
+                    <div class="mb-3">
+                      <label for="InputNumero" class="form-label">Número</label>
+                      <input type="texto" class="form-control" id="InputNumero" required disabled />
+                    </div>
+                  </div>
+                  <!-- Input Estado -->
+                  <div class="col-3">
+                    <div class="mb-3">
+                      <label for="InputEstado" class="form-label">Estado</label>
+                      <input type="text" class="form-control " id="InputEstado" disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Botão -->
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class=" btn bg-secondary text-white" id="botao">Salvar</button>
                 </div>
               </div>
-            </div>
-            <!-- Linha -->
-            <div class="row">
-              <!-- Input Rua -->
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="InputRua" class="form-label">Rua</label>
-                  <input type="text" class="form-control" id="InputRua" disabled/>
-                </div>
-              </div>
-              <!-- Input Bairro -->
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="InputBairro" class="form-label">Bairro</label>
-                  <input type="text" class="form-control" id="InputBairro" disabled/>
-                </div>
-              </div>
-            </div>
-            <!-- Linha -->
-            <div class="row">
-              <!-- Input Cidade -->
-              <div class="col-6">
-                <div class="mb-3">
-                  <label for="InputCity" class="form-label">Cidade</label>
-                  <input type="text" class="form-control" id="InputCity" disabled/>
-                </div>
-              </div>
-              <!-- Input Número -->
-              <div class="col-3">
-                <div class="mb-3">
-                  <label for="InputNumber" class="form-label">Número</label>
-                  <input type="texto" class="form-control" id="InputNumber" disabled/>
-                </div>
-              </div>
-              <!-- Input Estado -->
-              <div class="col-3">
-                <div class="mb-3">
-                  <label for="InputEstado" class="form-label">Estado</label>
-                  <input type="text" class="form-control " id="InputEstado" disabled/>
-                </div>
-              </div>
-            </div>
-            <!-- Botão -->
-            <div class="d-flex justify-content-center">
-              <button type="submit" class=" btn bg-secondary text-white">Salvar</button>
-            </div>
-          </div>
         </form>
       </section>
       <section>
         <!-- Tabela -->
         <div class="my-3 mx-4">
-          <table class="table table-striped table-dark">
+          <table id="TabelaClientes" class="table table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
